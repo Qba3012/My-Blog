@@ -1,0 +1,118 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Confirmation">
+    <meta name="author" content="jakubogorkiewicz">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width" name="viewport"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .image {
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #header {
+            font-size: 22px;
+            text-align: center;
+            word-break: break-word;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            line-height: 1.2;
+            padding-top:30px;
+            padding-right:5px;
+            padding-bottom:5px;
+            padding-left:5px;
+        }
+        #content {
+            font-size: 15px;
+            text-align: center;
+            word-break: break-word;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            line-height: 1.2;
+            padding-top:5px;
+            padding-right:5px;
+            padding-bottom:5px;
+            padding-left:5px;
+        }
+        #content .bold {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        hr.solid {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-top: 1px solid #bbb;
+            width: 100px;
+        }
+        .wrapper {
+            width: 25em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px 0 5px 0;
+            background-color: rgb(226, 226, 226);
+            border-radius: 20px;
+        }
+        .wrapper-text {
+            font-size: 17px;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            line-height: 1.2;
+            text-align: center;
+            padding: 5px 0 20px 0;
+        }
+        .wrapper-text .bold {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        div.container {
+            position: relative;
+        }
+        div.container p {
+            padding: 15px 0 15px 0;
+            font-size: 17px;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            line-height: 1.2;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25em;
+            text-align: center;
+        }
+        .container .bold {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        @media (max-width: 410px) {
+            .wrapper {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="image">
+    <img class="image" src="cid:logo@my-blog" alt="logo-image">
+</div>
+<hr class="solid">
+<div class="container">
+    <p class="first">This is an automatic confirmation e-mail.</p>
+    <p class="second">Please click the link below to publish post:</p>
+</div>
+<div class="container">
+    <p class="link">${activationLink}</p>
+</div>
+<div class="wrapper">
+    <div class="image">
+        <img class="image" src="cid:post@image">
+    </div>
+    <p id="content"><span class="bold">${post}</span></p>
+</div>
+</body>
+</html>

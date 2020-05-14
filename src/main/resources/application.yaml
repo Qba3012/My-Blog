@@ -1,0 +1,28 @@
+quarkus:
+# Network config
+  http:
+    cors: true
+    port: 8080
+# Mailer config 
+
+# kept secret
+
+# Database settings
+  datasource:
+    driver: org.postgresql.Driver
+    username: blogger
+    password: password
+    url: jdbc:postgresql://${DB_SERVER}/my_blog
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+    sql-load-script: no-file
+    log:
+      sql: true
+# Miscellanous
+  banner:
+    path: banner.txt
+my-blog:
+  directory: ${user.home}/my-blog
+  server: ${SERVER}
+  front-uri: ${FLUTTER_APP}
