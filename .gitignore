@@ -17,7 +17,6 @@ posts
 LoadDemoData.java
 
 #docker
-docker
 .dockerignore
 
 # NetBeans

@@ -10,6 +10,7 @@ public enum ErrorCode {
     CAPTCHA_MISMATCH("Captcha does not match the image", "CaptchaMismatch"),
     QUERY_PARAMETERS("Wrong query parameters", "QueryParameters"),
     ALREADY_EXIST("Given data already exist", "AlreadyExist"),
+    ALREADY_VOTED("You have already voted", "AlreadyVoted"),
     OUT_OF_INDEX("Selected page number is out of index", "OutOfIndex");
 
     private String message;

@@ -2,10 +2,12 @@ package ogorkiewicz.jakub.my_blog.dto;
 
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ogorkiewicz.jakub.my_blog.model.Comment;
 
 @Getter
+@AllArgsConstructor
 public class CommentDto {
 
     private final Long id;

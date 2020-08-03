@@ -1,19 +1,20 @@
 package ogorkiewicz.jakub.my_blog.service;
 
-import lombok.extern.jbosslog.JBossLog;
-import ogorkiewicz.jakub.my_blog.exception.MyBlogException;
-import ogorkiewicz.jakub.my_blog.exception.ErrorCode;
-import ogorkiewicz.jakub.my_blog.model.Post;
-import ogorkiewicz.jakub.my_blog.model.PostImage;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.enterprise.context.ApplicationScoped;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import lombok.extern.jbosslog.JBossLog;
+import ogorkiewicz.jakub.my_blog.exception.ErrorCode;
+import ogorkiewicz.jakub.my_blog.exception.MyBlogException;
+import ogorkiewicz.jakub.my_blog.model.Post;
+import ogorkiewicz.jakub.my_blog.model.PostImage;
 
 @ApplicationScoped
 @JBossLog
@@ -25,7 +26,6 @@ public class FileService {
     public Path saveImage(String fileName,Long id, InputStream inputStream) throws MyBlogException{
 
         Path filePath = Paths.get(directory,"post" + id,fileName);
-
         if(Files.notExists(filePath)) {
             try {
                 Files.createDirectories(filePath.getParent());
@@ -40,7 +40,7 @@ public class FileService {
         return null;
     }
 
-    public InputStream readFile(URI localUri) throws MyBlogException{
+    public InputStream readFile(String localUri) throws MyBlogException{
         Path filePath = Paths.get(localUri);
 
         if (Files.exists(filePath)) {

@@ -1,17 +1,16 @@
 package ogorkiewicz.jakub.my_blog.service;
 
 import static ogorkiewicz.jakub.my_blog.resource.MailResource.COMMENT_CONFIRMATION_PATH;
-import static ogorkiewicz.jakub.my_blog.resource.MailResource.POST_CONFIRMATION_PATH;
 import static ogorkiewicz.jakub.my_blog.resource.MailResource.MAIL_PATH;
+import static ogorkiewicz.jakub.my_blog.resource.MailResource.POST_CONFIRMATION_PATH;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -52,7 +51,7 @@ public class MailService {
     }
 
 
-    public void sendPostConfirmationEmail(String email, String post, URI imageUri, String token){
+    public void sendPostConfirmationEmail(String email, String post, Path imagePath, String token){
 
         HashMap<String,Object> input = new HashMap<>();
         input.put("activationLink",createActivationLink(token,POST_CONFIRMATION_PATH));
@@ -71,7 +70,7 @@ public class MailService {
                 writer.toString())
                 .addInlineAttachment("my-blog.jpg",getLogo(),
                         "image/png", "<logo@my-blog>")
-                .addInlineAttachment(FilenameUtils.getName(imageUri.toString()), Paths.get(imageUri).toFile(),
+                .addInlineAttachment(FilenameUtils.getName(imagePath.toString()), imagePath.toFile(),
                         "image/png", "<post@image>"))
                 .subscribeAsCompletionStage();
 
@@ -115,7 +114,6 @@ public class MailService {
         try {
             return IOUtils.toByteArray(MailService.class.getResourceAsStream(logo));
         } catch (IOException e) {
-            e.printStackTrace();
             log.error("Logo image read operation failed. Mail has not been sent.");
             return null;
         }
