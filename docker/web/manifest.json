@@ -1,0 +1,14 @@
+{
+    "name": "my_blog",
+    "short_name": "my_blog",
+    "start_url": ".",
+    "display": "minimal-ui",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Flutter web my-blog application",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+
+    ]
+}

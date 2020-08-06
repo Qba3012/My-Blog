@@ -1,0 +1,7 @@
+FROM nginx
+COPY ./web /usr/share/nginx/html
+ARG SERVER
+RUN echo "Configuring server: $SERVER"
+RUN sed -i 's/const server = ".*"/const server = "'"${SERVER}"'"/' /usr/share/nginx/html/main.dart.js
+
+EXPOSE 80

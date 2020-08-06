@@ -1,28 +1,25 @@
 quarkus:
-# Network config
+  package:
+    uber-jar: true
   http:
     cors: true
-    port: 8080
-# Mailer config 
-
-# kept secret
-
-# Database settings
+# Mailer config
+  mailer:
+    from: my-blog@mail.com
+    host: ${MAIL_CLIENT}
+    port: 25
+    ssl: false
+    mock: false
+  ## Database settings
   datasource:
     driver: org.postgresql.Driver
-    username: blogger
+    username: my_blog
     password: password
     url: jdbc:postgresql://${DB_SERVER}/my_blog
-  hibernate-orm:
-    database:
-      generation: drop-and-create
-    sql-load-script: no-file
-    log:
-      sql: true
-# Miscellanous
+## Miscellanous
   banner:
     path: banner.txt
 my-blog:
   directory: ${user.home}/my-blog
-  server: ${SERVER}
-  front-uri: ${FLUTTER_APP}
+  server: http://${SERVER}
+  front-uri: http://${FLUTTER_APP}

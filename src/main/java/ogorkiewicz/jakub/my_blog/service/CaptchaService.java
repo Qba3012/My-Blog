@@ -25,7 +25,7 @@ public class CaptchaService {
     final int imageWidth = 300;
     final int imageHeight = 100;
     final int padding = 20;
-    final String fontFamily = "Times New Roman";
+    final String fontFamily = "DejaVu Serif";
     final char[] alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789".toCharArray();
 
 

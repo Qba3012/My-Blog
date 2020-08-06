@@ -2,7 +2,6 @@ package ogorkiewicz.jakub.my_blog.service;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.nio.file.Path;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -47,7 +46,7 @@ public class PostImageService {
         return data;
     }
 
-    public URI addPostImage(MultipartFile multipartRequest, Post post) throws MyBlogException{
+    public Path addPostImage(MultipartFile multipartRequest, Post post) throws MyBlogException{
         PostImage postImage = new PostImage();
         PostDto postDto = multipartRequest.postDto;
         postImage.fileName = multipartRequest.fileName;
@@ -60,9 +59,9 @@ public class PostImageService {
             e.printStackTrace();
         }
         Path path = fileService.saveImage(postImage.fileName,post.id,multipartRequest.file);
-        postImage.localUri = path.toUri();
+        postImage.localUri = path.toString();
         PostImage.persist(postImage);
-        return postImage.localUri;
+        return path;
     }
 
 }

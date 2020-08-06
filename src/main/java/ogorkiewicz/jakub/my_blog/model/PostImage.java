@@ -1,7 +1,7 @@
 package ogorkiewicz.jakub.my_blog.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.panache.common.Parameters;
+import java.net.URL;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +11,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URL;
-import java.util.List;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.panache.common.Parameters;
 
 @Entity
 @Table(name = "post_image")
@@ -25,7 +25,7 @@ public class PostImage extends PanacheEntity {
     @Column(name = "image_url")
     public URL imageUrl;
     @Column(name = "local_uri")
-    public URI localUri;
+    public String localUri;
     @Column(name = "image_offset")
     public double imageOffset;
     @Column(name = "image_fit")

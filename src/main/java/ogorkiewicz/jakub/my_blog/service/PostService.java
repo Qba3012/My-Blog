@@ -1,7 +1,6 @@
 package ogorkiewicz.jakub.my_blog.service;
 
-import java.net.URI;
-import java.net.URL;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -13,10 +12,10 @@ import javax.inject.Inject;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import lombok.AllArgsConstructor;
-import ogorkiewicz.jakub.my_blog.dto.PostLikeDto;
 import ogorkiewicz.jakub.my_blog.dto.MultipartFile;
 import ogorkiewicz.jakub.my_blog.dto.PageDto;
 import ogorkiewicz.jakub.my_blog.dto.PostDto;
+import ogorkiewicz.jakub.my_blog.dto.PostLikeDto;
 import ogorkiewicz.jakub.my_blog.exception.ErrorCode;
 import ogorkiewicz.jakub.my_blog.exception.MyBlogException;
 import ogorkiewicz.jakub.my_blog.model.Comment;
@@ -69,19 +68,19 @@ public class PostService {
         Post post = PostDto.toEntity(multipartRequest);
         Post.persist(post);
 
-        URI imageUri = postImageService.addPostImage(multipartRequest,post);
+        Path imagePath = postImageService.addPostImage(multipartRequest,post);
 
         String token = UUID.randomUUID().toString();
         PostToken.persist(new PostToken(token, post));
 
-        mailService.sendPostConfirmationEmail(post.email,post.content,imageUri,token);
+        mailService.sendPostConfirmationEmail(post.email,post.content,imagePath,token);
 
     }
 
     public long addLike(PostLikeDto postLikeDto) throws MyBlogException{
         PostLike postLike = PostLike.find("email=?1 and post_id=?2",postLikeDto.getEmail(),postLikeDto.getPostId()).firstResult();
         if(postLike != null){
-            throw new MyBlogException(ErrorCode.ALREADY_EXIST, PostLike.class);
+            throw new MyBlogException(ErrorCode.ALREADY_VOTED, PostLike.class);
         }else{
             PostLike.persist(postLikeDto.toEntity());
             return PostLike.count("post_id", postLikeDto.getPostId());

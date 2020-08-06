@@ -1,0 +1,60 @@
+version: '3.4'
+
+volumes:
+  postgres_data:
+    driver: local
+
+x-variables: &server
+    SERVER: localhost:8080
+    FLUTTER_APP: localhost:8090
+
+
+services:
+
+  my-blog-front:
+    build:
+      context: .
+      dockerfile: frontDockerfile
+      args: *server
+    container_name: my-blog-front
+    ports:
+      - 80:80
+    depends_on:
+      - my-blog-database
+      - my-blog-server
+  
+  my-blog-server:
+    build:
+      context: ../
+      dockerfile: ./docker/serverDockerfile
+    container_name: my-blog-server
+    volumes:
+      - ./my-blog:/root/my-blog
+    environment:
+      <<: *server
+      MAIL_CLIENT: my-blog-mail
+      DB_SERVER: my-blog-database
+    ports:
+      - 8080:8080
+    depends_on:
+      - my-blog-database
+
+  my-blog-mail:
+    image: namshi/smtp
+    container_name: my-blog-mail
+    ports:
+      - "25:25"
+    restart: always
+
+  my-blog-database:
+    image: postgres
+    container_name: my-blog-database
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/postgres:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: my_blog
+      POSTGRES_USER: my_blog
+      POSTGRES_PASSWORD: password
