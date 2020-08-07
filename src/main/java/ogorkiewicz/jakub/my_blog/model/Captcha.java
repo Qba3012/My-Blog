@@ -2,20 +2,28 @@ package ogorkiewicz.jakub.my_blog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
-public class Captcha extends PanacheEntity {
-    
-    public String captcha;
-    @Column(name = "captcha_key")
-    public String captchaKey;
+@Setter
+@Getter
+public class Captcha {
 
-    public Captcha(String captcha, String captchaKey){
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String captcha;
+    @Column(name = "captcha_key")
+    private String captchaKey;
+
+    public Captcha(String captcha, String captchaKey) {
         this.captcha = captcha;
         this.captchaKey = captchaKey;
     }
+
 }

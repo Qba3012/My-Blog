@@ -2,18 +2,25 @@ package ogorkiewicz.jakub.my_blog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import lombok.Setter;
 
 
 @Entity
+@Setter
 @Table(name = "post_like")
-public class PostLike extends PanacheEntity{
+public class PostLike {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
-    public String email;
+    private String email;
     @Column(nullable=false,name = "post_id")
-    public Long postId;
+    private Long postId;
   
 }
