@@ -1,19 +1,21 @@
 package ogorkiewicz.jakub.my_blog.model;
 
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @NoArgsConstructor
-public class ConfirmationToken extends PanacheEntity {
+@Getter
+public class ConfirmationToken {
     
-    public String token;
+    @Id
+    private Long id;
+    private String token;
 
     public ConfirmationToken(String token) {
         this.token = token;
     }
-    
-
 }

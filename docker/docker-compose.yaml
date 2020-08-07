@@ -6,7 +6,7 @@ volumes:
 
 x-variables: &server
     SERVER: localhost:8080
-    FLUTTER_APP: localhost:8090
+    FLUTTER_APP: localhost:80
 
 
 services:
@@ -55,6 +55,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/postgres:/docker-entrypoint-initdb.d
     environment:
+      <<: *server
       POSTGRES_DB: my_blog
       POSTGRES_USER: my_blog
       POSTGRES_PASSWORD: password

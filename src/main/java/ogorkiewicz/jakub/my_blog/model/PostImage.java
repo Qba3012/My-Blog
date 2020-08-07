@@ -1,41 +1,42 @@
 package ogorkiewicz.jakub.my_blog.model;
 
 import java.net.URL;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.panache.common.Parameters;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "post_image")
-public class PostImage extends PanacheEntity {
+public class PostImage {
 
+    @Id
+    private Long id;
     @NotNull
-    @Column(name="file_name")
-    public String fileName;
+    @Column(name = "file_name")
+    private String fileName;
     @Column(name = "image_url")
-    public URL imageUrl;
+    private URL imageUrl;
     @Column(name = "local_uri")
-    public String localUri;
+    private String localUri;
     @Column(name = "image_offset")
-    public double imageOffset;
+    private double imageOffset;
     @Column(name = "image_fit")
     @Enumerated(EnumType.STRING)
-    public ImageFit imageFit;
+    private ImageFit imageFit;
     @OneToOne
     @MapsId
-    public Post post;
+    private Post post;
 
-    public static List<PostImage> findByIdList(List<Long> postIds){
-        return find( "id in (:postIds)", Parameters.with("postIds",postIds)).list();
-    }
 }

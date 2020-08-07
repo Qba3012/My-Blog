@@ -1,55 +1,56 @@
 package ogorkiewicz.jakub.my_blog.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import ogorkiewicz.jakub.my_blog.model.Comment;
-import ogorkiewicz.jakub.my_blog.model.Post;
-import ogorkiewicz.jakub.my_blog.model.PostImage;
-import ogorkiewicz.jakub.my_blog.model.PostLike;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import ogorkiewicz.jakub.my_blog.model.Post;
+import ogorkiewicz.jakub.my_blog.model.PostImage;
+import ogorkiewicz.jakub.my_blog.repository.CommentRepository;
+import ogorkiewicz.jakub.my_blog.repository.PostLikeRepository;
+
 @Getter
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostDto {
 
-    Long id;
+    private Long id;
     @Size(min = 1, max = 20)
-    String title;
+    private String title;
     @Size(min = 1, max = 50)
-    String email;
+    private String email;
     @Size(min = 1, max = 1000)
-    String content;
+    private String content;
     @NotNull
-    String imageFit;
+    private String imageFit;
     @NotNull
-    Double imageOffset;
-    Long likes;
-    Boolean isConfirmed;
-    String createDate;
-    String imageUrl;
-    long commentsNumber;
+    private Double imageOffset;
+    private Long likes;
+    private String createDate;
+    private String imageUrl;
+    private long commentsNumber;
 
     public PostDto(Post post, PostImage postImage) {
-        this.id = post.id;
-        this.title = post.title;
-        this.content = post.content;
-        this.email = post.email;
-        this.imageOffset = postImage != null ? postImage.imageOffset : null;
-        this.imageFit = postImage != null ? postImage.imageFit.name() : null;
-        this.createDate = post.createDate.toString();
-        this.imageUrl = postImage != null ? postImage.imageUrl.toString() : null;
-        this.commentsNumber = Comment.find("post_id=?1 and is_confirmed=true",post.id).count();
-        this.likes = PostLike.count("post_id", post.id);
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.email = post.getEmail();
+        this.imageOffset = postImage != null ? postImage.getImageOffset() : null;
+        this.imageFit = postImage != null ? postImage.getImageFit().name() : null;
+        this.createDate = post.getCreateDate().toString();
+        this.imageUrl = postImage != null ? postImage.getImageUrl().toString() : null;
+        this.commentsNumber = new CommentRepository().getCommentCount(post.getId());
+        this.likes = new PostLikeRepository().countLikes(post.getId());
     }
 
-    public static Post toEntity(MultipartFile multipartFile) {
-        PostDto postDto = multipartFile.postDto;
+    public Post toEntity() {
         Post post = new Post();
-        post.title = postDto.getTitle();
-        post.content = postDto.getContent();
-        post.email = postDto.getEmail();
+        post.setTitle(this.title);
+        post.setContent(this.content);
+        post.setEmail(this.email);
         return post;
     }
 }

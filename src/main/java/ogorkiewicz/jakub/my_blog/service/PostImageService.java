@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -17,6 +18,7 @@ import ogorkiewicz.jakub.my_blog.exception.MyBlogException;
 import ogorkiewicz.jakub.my_blog.model.ImageFit;
 import ogorkiewicz.jakub.my_blog.model.Post;
 import ogorkiewicz.jakub.my_blog.model.PostImage;
+import ogorkiewicz.jakub.my_blog.repository.PostImageRepository;
 
 @ApplicationScoped
 @JBossLog
@@ -25,42 +27,45 @@ public class PostImageService {
     @ConfigProperty(name = "my-blog.server")
     private String server;
     private FileService fileService;
+    private PostImageRepository postImageRepository;
 
-    public PostImageService(FileService fileService) {
+    @Inject
+    public PostImageService(FileService fileService, PostImageRepository postImageRepository) {
         this.fileService = fileService;
+        this.postImageRepository = postImageRepository;
     }
 
-    public InputStream getImage(Long postId) throws MyBlogException{
-        PostImage postImage = PostImage.findById(postId);
+    public InputStream getImage(Long postId) throws MyBlogException {
+        PostImage postImage = postImageRepository.findById(postId);
 
-        if(postImage == null){
-            throw new MyBlogException(ErrorCode.NOT_EXIST,PostImage.class);
+        if (postImage == null) {
+            throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
         }
 
-        InputStream data = fileService.readFile(postImage.localUri);
+        InputStream data = fileService.readFile(postImage.getLocalUri());
 
-        if(data == null){
-            throw new MyBlogException(ErrorCode.NOT_EXIST,PostImage.class);
+        if (data == null) {
+            throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
         }
 
         return data;
     }
 
-    public Path addPostImage(MultipartFile multipartRequest, Post post) throws MyBlogException{
+    public Path addPostImage(MultipartFile multipartRequest, Post post) throws MyBlogException {
         PostImage postImage = new PostImage();
-        PostDto postDto = multipartRequest.postDto;
-        postImage.fileName = multipartRequest.fileName;
-        postImage.imageOffset = postDto.getImageOffset();
-        postImage.imageFit = ImageFit.valueOf(postDto.getImageFit());
-        postImage.post = post;
+        PostDto postDto = multipartRequest.getPostDto();
+        postImage.setFileName(multipartRequest.getFileName());
+        postImage.setImageOffset(postDto.getImageOffset());
+        postImage.setImageFit(ImageFit.valueOf(postDto.getImageFit()));
+        postImage.setPost(post);
         try {
-            postImage.imageUrl = UriBuilder.fromPath(server + "/posts/{id}/image").build(post.id).toURL();
+            postImage.setImageUrl(UriBuilder.fromPath(server + "/posts/{id}/image").build(post.getId()).toURL());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            log.error("Unable to create Url. Wrong format. " + e.getMessage());
         }
-        Path path = fileService.saveImage(postImage.fileName,post.id,multipartRequest.file);
-        postImage.localUri = path.toString();
-        PostImage.persist(postImage);
+        Path path = fileService.saveImage(postImage.getFileName(), post.getId(), multipartRequest.getFile());
+        postImage.setLocalUri(path.toString());
+        postImageRepository.persist(postImage);
         return path;
     }
 
