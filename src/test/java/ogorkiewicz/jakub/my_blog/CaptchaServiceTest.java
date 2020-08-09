@@ -1,8 +1,9 @@
 package ogorkiewicz.jakub.my_blog;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
@@ -129,10 +130,19 @@ public class CaptchaServiceTest {
         // given
         given(captchaRepository.getCaptchaByKey(captchaKey)).willReturn(null);
 
-        // when//then
-        assertThatExceptionOfType(MyBlogException.class)
-                .isThrownBy(() -> captchaService.confirmCaptcha(testCaptcha, captchaKey))
-                .withMessage(ErrorCode.NOT_EXIST.getMessage());
+        // when// then
+        MyBlogException myBlogException = new MyBlogException(ErrorCode.NOT_EXIST, Captcha.class);
+
+        assertThatThrownBy(() -> captchaService.confirmCaptcha(testCaptcha, captchaKey))
+            .isInstanceOf(MyBlogException.class)
+            .usingRecursiveComparison()
+            .isEqualTo(myBlogException);
+        then(captchaRepository)
+            .should(never())
+            .deleteById(anyLong());
+        then(captchaRepository)
+            .should(never())
+            .persist(any(Captcha.class));
     }
 
 }
