@@ -39,7 +39,7 @@ public class MailService {
     private Configuration cfg;
 
     private final String templatesDir = "/templates";
-    private final String logo = "/images/logo.png";
+    public final static String LOGO = "/images/logo.png";
 
     public MailService(ReactiveMailer mailer){
         this.cfg = new Configuration(Configuration.VERSION_2_3_30);
@@ -112,7 +112,7 @@ public class MailService {
 
     private byte[] getLogo(){
         try {
-            return IOUtils.toByteArray(MailService.class.getResourceAsStream(logo));
+            return IOUtils.toByteArray(MailService.class.getResourceAsStream(LOGO));
         } catch (IOException e) {
             log.error("Logo image read operation failed. Mail has not been sent.");
             return null;
