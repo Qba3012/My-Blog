@@ -11,6 +11,7 @@ public enum ErrorCode {
     QUERY_PARAMETERS("Wrong query parameters", "QueryParameters"),
     ALREADY_EXIST("Given data already exist", "AlreadyExist"),
     ALREADY_VOTED("You have already voted", "AlreadyVoted"),
+    CAPTCHA_KEY_NULL("Captcha key cannot be null", "CaptchaKeyNull"),
     OUT_OF_INDEX("Selected page number is out of index", "OutOfIndex");
 
     private String message;

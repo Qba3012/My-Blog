@@ -1,0 +1,26 @@
+quarkus:
+# Network config
+  http:
+    cors: true
+    port: 8081
+# Mailer config 
+  mailer:
+    mock: true
+# Database config
+  datasource:
+    url: jdbc:h2:tcp://localhost/mem:test
+    driver: org.h2.Driver
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+      charset: UTF-8
+    sql-load-script: no-file
+    log:
+      sql: true
+# Miscellanous
+  banner:
+    path: banner.txt
+my-blog:
+  directory: ${user.home}/my-blog
+  server: ${SERVER:http://localhost:8080}
+  front-uri: ${FLUTTER_APP:localhost:8080} 
