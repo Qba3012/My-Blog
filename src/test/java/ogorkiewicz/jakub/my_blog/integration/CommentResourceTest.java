@@ -6,6 +6,8 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
 import static ogorkiewicz.jakub.my_blog.resource.CommentResource.COMMENT_PATH;
+import static ogorkiewicz.jakub.my_blog.integration.PostResourceTest.TEST_EMAIL;
+import static ogorkiewicz.jakub.my_blog.integration.PostResourceTest.TEST_CONTENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.OffsetDateTime;
@@ -54,17 +56,12 @@ public class CommentResourceTest {
     MockMailbox mailbox;
 
     private Long postId;
-    private final String testContent = "Test Content";
-    private final String testEmail = "test@mail.com";
     
     @BeforeEach
     @Transactional
     public void setUpTest() {
         RestAssured.basePath = COMMENT_PATH;
-        Post post = new Post();
-        post.setTitle("Test");
-        post.setContent(testContent);
-        post.setEmail(testEmail);
+        Post post = PostResourceTest.createPost();
         postRepository.persist(post);
         postId = post.getId();
     }
@@ -86,7 +83,7 @@ public class CommentResourceTest {
         //then
         Comment commentDb = commentRepository.find("post_id", postId).firstResult();
         ConfirmationToken token = tokenRepository.listAll().get(0);
-        Mail mail = mailbox.getMessagesSentTo(testEmail).get(0);
+        Mail mail = mailbox.getMessagesSentTo(TEST_EMAIL).get(0);
 
         assertThat(commentDb.isConfirmed())
             .isFalse();
@@ -100,8 +97,8 @@ public class CommentResourceTest {
     public void shouldNotAddCommentToNotExistingPost() {
         // given
         Comment comment = new Comment();
-        comment.setContent(testContent); 
-        comment.setEmail(testEmail);
+        comment.setContent(TEST_CONTENT); 
+        comment.setEmail(TEST_EMAIL);
         comment.setCreateDate(OffsetDateTime.now());
         CommentDto commentDto = new CommentDto(comment);
 
@@ -164,14 +161,14 @@ public class CommentResourceTest {
             .extracting(
                 CommentDto::getContent,
                 CommentDto::getEmail)
-            .containsOnly(testContent, testEmail);
+            .containsOnly(TEST_CONTENT, TEST_EMAIL);
     }
 
     private void createComment() {
         // given
         Comment comment = new Comment();
-        comment.setContent(testContent); 
-        comment.setEmail(testEmail);
+        comment.setContent(TEST_CONTENT); 
+        comment.setEmail(TEST_EMAIL);
         comment.setCreateDate(OffsetDateTime.now());
         CommentDto commentDto = new CommentDto(comment);
 
@@ -191,5 +188,7 @@ public class CommentResourceTest {
     public void confirmComments() {
         commentRepository.update("is_confirmed = ?1", true);
     }
+
+
 
 }

@@ -1,5 +1,7 @@
 package ogorkiewicz.jakub.my_blog.dto;
 
+import java.time.OffsetDateTime;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,12 +19,19 @@ import ogorkiewicz.jakub.my_blog.repository.PostLikeRepository;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostDto {
 
+    public final static int TITLE_MAX_LENGTH = 20;
+    public final static int EMAIL_MAX_LENGTH = 50;
+    public final static int CONTENT_MAX_LENGTH = 1000;
+
     private Long id;
-    @Size(min = 1, max = 20)
+    @NotNull
+    @Size(min = 1, max = TITLE_MAX_LENGTH)
     private String title;
-    @Size(min = 1, max = 50)
+    @NotNull
+    @Size(min = 1, max = EMAIL_MAX_LENGTH)
     private String email;
-    @Size(min = 1, max = 1000)
+    @NotNull
+    @Size(min = 1, max = CONTENT_MAX_LENGTH)
     private String content;
     @NotNull
     private String imageFit;
@@ -49,6 +58,7 @@ public class PostDto {
     public Post toEntity() {
         Post post = new Post();
         post.setTitle(this.title);
+        post.setCreateDate(OffsetDateTime.now());
         post.setContent(this.content);
         post.setEmail(this.email);
         return post;

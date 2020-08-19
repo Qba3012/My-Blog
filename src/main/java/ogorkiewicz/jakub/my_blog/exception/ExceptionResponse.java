@@ -21,7 +21,7 @@ public class ExceptionResponse{
                 violation.getLeafBean().getClass().getSimpleName() + "."
                         + violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName();
         String[] pathElements = violation.getPropertyPath().toString().split("\\.");
-        this.message = violation.getMessage();
+        this.message = pathElements[pathElements.length-1] + " - " + violation.getMessage();
     }
 }
 

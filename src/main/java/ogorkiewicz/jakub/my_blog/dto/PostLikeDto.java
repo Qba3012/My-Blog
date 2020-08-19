@@ -3,11 +3,13 @@ package ogorkiewicz.jakub.my_blog.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ogorkiewicz.jakub.my_blog.model.PostLike;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class PostLikeDto {
     

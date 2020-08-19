@@ -44,10 +44,6 @@ public class PostImageService {
 
         InputStream data = fileService.readFile(postImage.getLocalUri());
 
-        if (data == null) {
-            throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
-        }
-
         return data;
     }
 

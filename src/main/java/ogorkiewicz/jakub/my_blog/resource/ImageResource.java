@@ -21,7 +21,7 @@ import static ogorkiewicz.jakub.my_blog.resource.ImageResource.IMAGE_PATH;
 @AllArgsConstructor(onConstructor = @__(@Inject))
 public class ImageResource {
 
-    protected static final String IMAGE_PATH = "/posts/{postId}/image";
+    public static final String IMAGE_PATH = "/posts/{postId}/image";
 
     private PostImageService postImageService;
 
