@@ -89,7 +89,7 @@ public class CaptchaService {
     public InputStream confirmCaptcha(String captchaText, String captchaKey) throws MyBlogException {
         Captcha captcha = captchaRepository.getCaptchaByKey(captchaKey);
         if (captcha != null) {
-            if (captcha != null && captchaText.equals(captcha.getCaptcha())) {
+            if (captcha != null && captcha.getCaptcha().equals(captchaText)) {
                 captchaRepository.deleteById(captcha.getId());
                 return null;
             } else {

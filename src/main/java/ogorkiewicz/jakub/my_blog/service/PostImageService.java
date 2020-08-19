@@ -41,7 +41,6 @@ public class PostImageService {
         if (postImage == null) {
             throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
         }
-
         return fileService.readFile(postImage.getLocalUri());
     }
 

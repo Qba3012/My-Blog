@@ -4,6 +4,8 @@ quarkus:
     cors: true
     port: 8081
 # Mailer config 
+  mailer:
+    mock: true
 # Database config
   datasource:
     url: jdbc:h2:tcp://localhost/mem:test
@@ -19,6 +21,6 @@ quarkus:
   banner:
     path: banner.txt
 my-blog:
-  directory: ${user.home}/my-blog
-  server: ${SERVER:localhost:8080}
-  front-uri: ${FLUTTER_APP:localhost:8080}
+  directory: ${user.home}/my-blog/test
+  server: http://${SERVER:localhost:8080}
+  front-uri: http://${FLUTTER_APP:localhost:8080} 

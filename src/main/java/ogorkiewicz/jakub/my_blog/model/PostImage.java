@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,16 +24,15 @@ public class PostImage {
 
     @Id
     private Long id;
-    @NotNull
-    @Column(name = "file_name")
+    @Column(name = "file_name", nullable = false)
     private String fileName;
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private URL imageUrl;
-    @Column(name = "local_uri")
+    @Column(name = "local_uri", nullable = false)
     private String localUri;
-    @Column(name = "image_offset")
+    @Column(name = "image_offset", nullable = false)
     private double imageOffset;
-    @Column(name = "image_fit")
+    @Column(name = "image_fit", nullable  = false)
     @Enumerated(EnumType.STRING)
     private ImageFit imageFit;
     @OneToOne

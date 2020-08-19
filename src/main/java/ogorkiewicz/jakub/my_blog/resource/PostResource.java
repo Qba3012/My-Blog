@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -58,11 +57,4 @@ public class PostResource {
         return Response.ok(likesNumber).build();
     }
 
-    @DELETE
-    @Path("/{postId}")
-    @Transactional
-    public Response deletePost(@PathParam("postId") Long postId){
-        postService.deletePost(postId);
-        return Response.ok().build();
-    }
 }
