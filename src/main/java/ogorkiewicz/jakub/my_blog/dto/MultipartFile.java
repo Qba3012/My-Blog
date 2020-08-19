@@ -9,12 +9,14 @@ import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ogorkiewicz.jakub.my_blog.constraint.FileName;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MultipartFile {
 
     @Valid

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ogorkiewicz.jakub.my_blog.model.Post;
@@ -16,6 +17,7 @@ import ogorkiewicz.jakub.my_blog.repository.PostLikeRepository;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostDto {
 
@@ -37,7 +39,7 @@ public class PostDto {
     private String imageFit;
     @NotNull
     private Double imageOffset;
-    private Long likes;
+    private long likes;
     private String createDate;
     private String imageUrl;
     private long commentsNumber;
