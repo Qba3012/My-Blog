@@ -42,13 +42,7 @@ public class PostImageService {
             throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
         }
 
-        InputStream data = fileService.readFile(postImage.getLocalUri());
-
-        if (data == null) {
-            throw new MyBlogException(ErrorCode.NOT_EXIST, PostImage.class);
-        }
-
-        return data;
+        return fileService.readFile(postImage.getLocalUri());
     }
 
     public Path addPostImage(MultipartFile multipartRequest, Post post) throws MyBlogException {
@@ -64,7 +58,7 @@ public class PostImageService {
             log.error("Unable to create Url. Wrong format. " + e.getMessage());
         }
         Path path = fileService.saveImage(postImage.getFileName(), post.getId(), multipartRequest.getFile());
-        postImage.setLocalUri(path.toString());
+        postImage.setLocalUri(path != null ? path.toString() : null);
         postImageRepository.persist(postImage);
         return path;
     }
