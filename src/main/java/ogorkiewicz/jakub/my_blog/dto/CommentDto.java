@@ -11,7 +11,7 @@ import ogorkiewicz.jakub.my_blog.model.Comment;
 public class CommentDto {
 
     private Long id;
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 200)
     private String content;
     @Size(min = 1, max = 50)
     private String email;

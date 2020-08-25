@@ -52,7 +52,7 @@ public class MailResource {
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     public Response sendEmail(@Valid MailDto mail){
-        mailService.sendEmail(mail);
+        mailService.sendContactEmail(mail);
         return Response.ok().build();
     }
 
