@@ -68,7 +68,6 @@ public class PostService {
             }).collect(Collectors.toList());
 
             return new PageDto(pageNumber, availablePages, postDtoList);
-
         } else {
             throw new MyBlogException(ErrorCode.OUT_OF_INDEX, Post.class);
         }
@@ -83,7 +82,7 @@ public class PostService {
         String token = UUID.randomUUID().toString();
         tokenRepository.persist(new PostToken(token, post));
 
-        mailService.sendPostConfirmationEmail(post.getEmail(), post.getContent(), imagePath, token);
+        mailService.sendPostConfirmationEmail(post, imagePath, token);
     }
 
     public long addLike(PostLikeDto postLikeDto) throws MyBlogException {
@@ -94,11 +93,6 @@ public class PostService {
             postLikeRepository.persist(postLikeDto.toEntity());
             return postLikeRepository.countLikes(postLikeDto.getPostId());
         }
-    }
-
-    public void deletePost(Long postId) {
-        commentRepository.deleteById(postId);
-        postRepository.deleteById(postId);
     }
 
     public void confirmPost(String token) throws MyBlogException {

@@ -13,6 +13,7 @@ import ogorkiewicz.jakub.my_blog.model.PostLike;
 @NoArgsConstructor
 public class PostLikeDto {
     
+    @NotNull
     @Size(min = 1, max = 50)
     private String email;
     @NotNull

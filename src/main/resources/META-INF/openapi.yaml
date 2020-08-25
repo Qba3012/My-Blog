@@ -1,0 +1,56 @@
+---
+openapi: 3.0.1
+info:
+  title: My Blog
+  description: API for My Blog
+  version: "1.0"
+externalDocs:
+  description: Project repository
+  url: https://github.com/Qba3012/My-Blog
+tags:
+  - name: captcha
+    description: Endpoints for creating and validating captcha
+  - name: comments
+    description: Endpoints for adding and reading comments
+  - name: images
+    description: Endpoint for receiving post images
+  - name: mail
+    description: Endpoints for managing mailing services
+  - name: posts
+    description: Endpoints for managing posts
+paths:
+  /page/{pageNumber}
+    get:
+      tags:
+        - posts
+      summary: Reading page of posts
+      parameters:
+        - in: path
+          name: pageNumber
+          required: true
+          schema:
+            type: int
+      responses:
+        "200":
+          description: Requested page of posts
+          content:
+            application/json:
+              schema:
+                $ref:'#/components/schemas/PageDto'
+components:
+  schemas:
+    PageDto:
+      type: object
+      properties:
+        page:
+          type: int
+        totalPages:
+          type: int
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDto'
+    PostDto:
+      type: object
+      properties:
+        

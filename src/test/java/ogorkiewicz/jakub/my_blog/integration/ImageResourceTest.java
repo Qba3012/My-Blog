@@ -93,7 +93,6 @@ public class ImageResourceTest {
             .when()
             .get()
             .then()
-            .log().all()
             .statusCode(OK.getStatusCode())
             .extract().asInputStream();
 

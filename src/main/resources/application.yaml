@@ -3,6 +3,8 @@ quarkus:
     uber-jar: true
   http:
     cors: true
+  swagger-ui:
+    always-include: true
 # Mailer config
   mailer:
     from: my-blog@mail.com
@@ -23,3 +25,7 @@ my-blog:
   directory: ${user.home}/my-blog
   server: http://${SERVER}
   front-uri: http://${FLUTTER_APP}
+mp:
+  openapi:
+    scan:
+      disable: true
